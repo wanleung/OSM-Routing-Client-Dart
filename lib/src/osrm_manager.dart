@@ -27,16 +27,19 @@ import 'package:routing_client_dart/src/utilities/utils.dart';
 class OSRMManager with OSRMHelper {
   final String server;
   final RoadType roadType;
+  final bool isCustom;
   late final Dio dio;
 
   OSRMManager()
       : server = oSRMServer,
         roadType = RoadType.car,
+        isCustom = false,
         dio = Dio();
 
   OSRMManager.custom({
     required this.server,
     this.roadType = RoadType.car,
+    this.isCustom = true,
     Dio? dio,
   }) {
     this.dio = dio ?? Dio();
@@ -67,6 +70,7 @@ class OSRMManager with OSRMHelper {
       steps: steps,
       overview: overview,
       geometries: geometries,
+      isCustom: isCustom,
     );
     path += "&alternatives=$alternative";
     final response = await dio.get(path);
@@ -119,6 +123,7 @@ class OSRMManager with OSRMHelper {
       steps: steps,
       overview: overview,
       geometries: geometries,
+      isCustom: isCustom,
     );
     final response = await dio.get(urlReq);
     if (response.statusCode == 200) {

@@ -15,9 +15,13 @@ mixin OSRMHelper {
     bool steps = true,
     Overview overview = Overview.full,
     Geometries geometries = Geometries.polyline,
+    bool isCustom = false,
   }) {
-    String url =
-        "$server/routed-${roadType.name}/${profile.name}/v1/driving/$waypoints";
+    String url = "$server";
+    if (! isCustom) {
+      url += "/routed-${roadType.name}";
+    }
+    url += "/${profile.name}/v1/driving/$waypoints";
     var option = "";
     option += "steps=$steps&";
     option += "overview=${overview.value}&";
@@ -35,6 +39,7 @@ mixin OSRMHelper {
     bool steps = true,
     Overview overview = Overview.full,
     Geometries geometries = Geometries.polyline,
+    isCustom = false,
   }) {
     String baseGeneratedUrl = generatePath(
       server,
@@ -44,6 +49,7 @@ mixin OSRMHelper {
       overview: overview,
       profile: Profile.trip,
       geometries: geometries,
+      isCustom: isCustom,
     );
 
     return "$baseGeneratedUrl&source=${source.name}&destination=${destination.name}&roundtrip=$roundTrip";
